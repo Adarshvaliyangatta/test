@@ -30,4 +30,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Verify JAR
-        run: ls -lh target/*.jar
+        run: ls -l target/*.jar
