@@ -25,4 +25,4 @@ jobs:
           cache: maven
 
      - name: Verify JAR
-        run: ls -l target/
+        run: ls -l target/*.jar
