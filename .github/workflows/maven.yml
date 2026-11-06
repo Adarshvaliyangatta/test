@@ -2,12 +2,7 @@ name: Java CI with Maven
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  
 
 jobs:
   build:
@@ -24,5 +19,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-     - name: Verify JAR
+      - name: Verify JAR
         run: ls -l target/*.jar
