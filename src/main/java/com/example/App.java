@@ -12,6 +12,5 @@ public class App {
 
         System.out.println(app.getMessage());
         System.out.println("Java application executed successfully.");
-
     }
 }
