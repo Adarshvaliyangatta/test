@@ -1,7 +1,11 @@
+```yaml
 name: Maven Build Test and Publish
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -15,19 +19,30 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Configure Java and Maven
-        run: |
-          echo "/usr/lib/jvm/java-17-openjdk-amd64/bin" >> "$GITHUB_PATH"
-          echo "/opt/maven/bin" >> "$GITHUB_PATH"
+      - name: Set up Java 17 and GitHub Packages credentials
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          server-id: github
+          server-username: GITHUB_ACTOR
+          server-password: GITHUB_TOKEN
+          cache: maven
+
+      - name: Configure Maven path
+        run: echo "/opt/maven/bin" >> "$GITHUB_PATH"
 
       - name: Verify Java and Maven
         run: |
           java -version
           mvn -version
-          which mvn
 
-      - name: Build and Test Maven Project
+      - name: Build and Test
         run: mvn clean verify
 
       - name: Publish to GitHub Packages
         run: mvn deploy
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
